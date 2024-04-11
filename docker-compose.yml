@@ -2,9 +2,42 @@ version: '3'
 services:
   python3:
     restart: always
-    build: .
+    build: ./ubuntu
     container_name: 'python3'
     working_dir: '/root/'
     tty: true
     volumes:
-      - ../gnn:/root/gnn
+      - ../../work:/root/work
+    ports:
+      - "127.0.0.1:8888:8888"
+    networks:
+      - mynet
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+     jupyter-lab --ip 0.0.0.0 --allow-root --no-browser -b localhost
+
+  db:
+    image: postgres:15
+    environment:
+      - DATABASE_HOST=localhost
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=testtest
+      - PGPASSWORD=testtest
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../../data:/root/data
+    networks:
+      - mynet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  mynet:
+    driver: bridge
+    

@@ -6,10 +6,7 @@ libncursesw5-dev libssl-dev libsqlite3-dev libgdbm-dev libbz2-dev liblzma-dev zl
 RUN apt-get install -y vim less 
 
 #任意バージョンのpython install
-RUN apt -y install python3 python3-pip
-
-#サイズ削減のため不要なものは削除
-RUN apt-get autoremove -y
+RUN apt -y install python3 python3-pip git
 
 #必要なpythonパッケージをpipでインストール
 RUN pip3 install --upgrade pip
