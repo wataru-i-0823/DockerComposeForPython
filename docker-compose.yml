@@ -16,7 +16,7 @@ services:
       db:
         condition: service_healthy
     command:
-     jupyter-lab --ip 0.0.0.0 --allow-root --no-browser -b localhost
+      jupyter-lab --ip 0.0.0.0 --allow-root --no-browser -b localhost
 
   db:
     image: postgres:15
